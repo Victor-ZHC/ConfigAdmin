@@ -12,6 +12,15 @@ $(function() {
 		if(name != "" && type != "" && tupleNum != ""
 			&& frequency != "" && source != "" && sql != "") {
 			
+			var nameList = document.getElementsByName("source_item");
+			
+			for(var i=0; i < nameList.length; i++) {
+                if(nameList[i].innerHTML == name){
+                	$("#alert").html("name重名！");
+					return;
+				}
+			}
+				
 			// Add 或   Edit
 			var dataset = e.currentTarget.dataset;
 			var id = dataset.id;
@@ -19,7 +28,7 @@ $(function() {
 
 			if (id != "") { // Edit
 				jQuery.ajax({
-					url : 'UpdateSourceDataServlet',
+					url : "UpdateSourceDataServlet",
 					processData : true,
 					dataType : "text",
 					data : {
@@ -32,9 +41,8 @@ $(function() {
 						sql : sql								
 					},
 					success : function(data) {
-						console.log(id);
 						bootbox.alert({
-							message : '修改成功',
+							message : "修改成功",
 							callback : function() {
 								location.reload();
 							}
@@ -43,7 +51,7 @@ $(function() {
 				});
 			} else { // Add
 				jQuery.ajax({
-					url : 'AddSourceDataServlet',
+					url : "AddSourceDataServlet",
 					processData : true,
 					dataType : "text",
 					data : {
@@ -57,7 +65,7 @@ $(function() {
 					success : function(data) {
 						console.log(id);
 						bootbox.alert({
-							message : '添加成功',
+							message : "添加成功",
 							callback : function() {
 								location.reload();
 							}
@@ -66,7 +74,7 @@ $(function() {
 				})
 			}
 			
-			$('#modal').modal('hide');
+			$("#modal").modal("hide");
 			
 		} else {
 			$("#alert").html("存在空值！");
@@ -79,20 +87,20 @@ $(function() {
 		bootbox.confirm({
 			buttons: {
 				confirm: {
-					label: '删除'
+					label: "删除"
 				},
 				cancel: {
-					label: '取消'
+					label: "取消"
 				}
 			},
-			message: '确认删除？',
+			message: "确认删除？",
 			callback: function(result) {
 				if(result) {
 					
 					var dataset = e.currentTarget.dataset;
 					var id = dataset.id;
 					jQuery.ajax({
-						url : 'DeleteSourceDataServlet',
+						url : "DeleteSourceDataServlet",
 						processData : true,
 						dataType : "text",
 						data : {
@@ -101,21 +109,20 @@ $(function() {
 						success : function(data) {
 							console.log(id);
 							bootbox.alert({ 
-					            message: '删除成功',  
+					            message: "删除成功",  
 					            callback: function() {
 					                location.reload();
 					            } 
 					        });
 						}
-					});
-					
+					});	
 				} 
 			}	
 		});
 	});
 
 	$("#add").click(function(e) {
-		$('#modalTitle').html("添加");
+		$("#modalTitle").html("添加");
 
 		// 模态框值填充，默认为空
 		$("input[name='name']").val("");
@@ -127,11 +134,11 @@ $(function() {
 
 		$("#save").attr("data-id", "");
 		$("#alert").html("");
-		$('#modal').modal('show');
+		$("#modal").modal("show");
 	});
 
 	$(".edit").click(function(e) {
-		$('#modalTitle').html("编辑");
+		$("#modalTitle").html("编辑");
 		var dataset = e.currentTarget.dataset;
 
 		// 模态框值填充
@@ -144,7 +151,7 @@ $(function() {
 		
 		$("#save").attr("data-id", dataset.id);
 		$("#alert").html("");
-		$('#modal').modal('show');
+		$("#modal").modal("show");
 	});
 
 });

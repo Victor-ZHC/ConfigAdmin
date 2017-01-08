@@ -100,7 +100,7 @@
 											for (int i = 0; i < dataList.size(); i++) {
 										%>
 										<tr>
-											<td width="15%" style="word-break: break-all"><%=dataList.get(i).getName()%></td>
+											<td width="15%" style="word-break: break-all"><span name="goal_item"><%=dataList.get(i).getName()%></span></td>
 											<td width="8%"><%=dataList.get(i).getType()%></td>
 											<td width="10%"><%=dataList.get(i).getTupleNum()%></td>
 											<td width="10%"><%=dataList.get(i).getFrequency()%></td>
@@ -184,7 +184,7 @@
 									</div>
 								</div>
 								<div class="form-group">
-									<label>Rule</label>
+									<label>Rule (注：表达式操作数和操作符之间以空格隔开)</label>
 									<textarea class="form-control" rows="4" name="rule"></textarea>
 								</div>
 								<div class="form-group">

@@ -19,44 +19,44 @@ $(function() {
 		var isJSONOK = 0;
 	
 		// 必须以{开头，以}结尾
-		var index_begin = rule.indexOf("{");
-		var index_end = rule.indexOf("}");
-		if(!(index_begin == 0 && index_end == rule.length - 1)) {
+		var indexBegin = rule.indexOf("{");
+		var indexEnd = rule.indexOf("}");
+		if(!(indexBegin == 0 && indexEnd == rule.length - 1)) {
 			isJSONOK = 1;
 		} else {
 			if(rule != "{}") {
 				try {  // 必须为JSON格式
-					var rule_json = JSON.parse(rule);
-					var key_ruleName_num = 0;  // key为ruleName出现的次数
-					var key_key_num = 0;  // key为key出现的次数
+					var ruleJson = JSON.parse(rule);
+					var keyRuleNameNum = 0;  // key为ruleName出现的次数
+					var keyKeyNum = 0;  // key为key出现的次数
 					
-					for (var key in rule_json) {
+					for (var key in ruleJson) {
 						if(key == "ruleName") {
-							key_ruleName_num ++;
+							keyRuleNameNum ++;
 							
 							// ruleName值必须为"sort"或"exp"
-							if(rule_json[key] != "sort" && rule_json[key] != "exp") { 
+							if(ruleJson[key] != "sort" && ruleJson[key] != "exp") { 
 								isJSONOK = 3;
 								return isJSONOK;  // 直接返回
-							} else if(rule_json[key] == "sort") {
+							} else if(ruleJson[key] == "sort") {
 	
-								if(!("order" in rule_json)) { // ruleName值为sort，key必须有order 
+								if(!("order" in ruleJson)) { // ruleName值为sort，key必须有order 
 									isJSONOK = 4;
 									return isJSONOK;  // 直接返回
 								} else {  // order值必须为"desc"或"asc"
-									if(rule_json["order"] != "desc" && rule_json["order"] != "asc") {
+									if(ruleJson["order"] != "desc" && ruleJson["order"] != "asc") {
 										isJSONOK = 5;
 										return isJSONOK;  // 直接返回
 									}	
 								}
 								
-							} else if(rule_json[key] == "exp") {
+							} else if(ruleJson[key] == "exp") {
 								
-								if(!("expression" in rule_json)) { // ruleName值为exp，key必须有expression 
+								if(!("expression" in ruleJson)) { // ruleName值为exp，key必须有expression 
 									isJSONOK = 6;
 									return isJSONOK;  // 直接返回
 								} else {	
-									if(typeof(rule_json["expression"]) != "string") {  // expression值必须为string格式
+									if(typeof(ruleJson["expression"]) != "string") {  // expression值必须为string格式
 										isJSONOK = 7;
 										return isJSONOK;  // 直接返回
 									}	
@@ -67,10 +67,10 @@ $(function() {
 						}
 						
 						if(key == "key") {
-							key_key_num ++;
+							keyKeyNum ++;
 							
 							// key值必须为string格式
-							if(typeof(rule_json[key]) != "string") { 
+							if(typeof(ruleJson[key]) != "string") { 
 								isJSONOK = 8;
 								return isJSONOK;  // 直接返回
 							}
@@ -78,7 +78,7 @@ $(function() {
 					}
 					
 					// key中必须有ruleName和key各一次
-					if(key_ruleName_num != 1 || key_key_num != 1) {
+					if(keyRuleNameNum != 1 || keyKeyNum != 1) {
 						isJSONOK = 9;
 					}
 					
@@ -107,10 +107,10 @@ $(function() {
 		var isJSONOK = 0;
 	
 		// 必须以[开头，以]结尾
-		var index_begin = dataSourceList.indexOf("[");
-		var index_end = dataSourceList.indexOf("]");
+		var indexBegin = dataSourceList.indexOf("[");
+		var indexEnd = dataSourceList.indexOf("]");
 		
-		if (!(index_begin == 0 && index_end == dataSourceList.length - 1) || dataSourceList.replace(/[ ]/g, "") == "[]") {
+		if (!(indexBegin == 0 && indexEnd == dataSourceList.length - 1) || dataSourceList.replace(/[ ]/g, "") == "[]") {
 			isJSONOK = 1;
 		} else {
 			try {  // 必须为JSON格式
@@ -121,12 +121,11 @@ $(function() {
 				$.each(dataSourceList_array_json, function (i, dataSourceList_json) {
 				
 					var length = 0; // 判断是否进入for循环，处理：JSON中存在没有key的单值的情况，如：[1]
-					var key_name_num = 0; // key为name出现的次数
-					var key_frequency_num = 0; // key为frequency出现的次数
+					var keyNameNum = 0; // key为name出现的次数
+					var keyFrequencyNum = 0; // key为frequency出现的次数
 					
 					for (var key in dataSourceList_json) {
-						length ++; 	
-			        
+						length ++;   
 						// key必须为name或frequency
 						if(key!="name" && key !="frequency") {
 							isJSONOK = 3; 
@@ -134,7 +133,7 @@ $(function() {
 						} 
 			        
 						if(key == "name") {
-							key_name_num ++;
+							keyNameNum ++;
 							
 							// name后的value必须是string
 							if(typeof(dataSourceList_json[key]) != "string") { 
@@ -144,7 +143,7 @@ $(function() {
 						}
 			        
 						if(key == "frequency") {
-							key_frequency_num ++;
+							keyFrequencyNum ++;
 			        	
 							// frequency后的value必须是数字
 							if(typeof(dataSourceList_json[key]) != "number") { 
@@ -161,7 +160,7 @@ $(function() {
 					}
 				
 					// 判断name和frequency是否成对出现
-					if(key_name_num != 1 || key_frequency_num != 1) {
+					if(keyNameNum != 1 || keyFrequencyNum != 1) {
 						isJSONOK = 7;
 						return;  // 跳出each循环
 					}
@@ -188,6 +187,15 @@ $(function() {
 	    if (name != "" && type != "" && tupleNum != "" 
 			&& frequency != "" && rule != "" && dataSourceList != "") {
 
+	    	var nameList = document.getElementsByName("goal_item");
+			
+			for(var i=0; i < nameList.length; i++) {
+                if(nameList[i].innerHTML == name){
+                	$("#alert").html("name重名！");
+					return;
+				}
+			}
+	    	
 	    	// rule格式检查
 	    	var isRuleOKResult = isRuleOK(rule);
 			// dataSourceList格式检查

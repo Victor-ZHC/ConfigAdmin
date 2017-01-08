@@ -100,7 +100,7 @@
 											for (int i = 0; i < dataList.size(); i++) {
 										%>
 										<tr>
-											<td width="15%" style="word-break: break-all"><%=dataList.get(i).getName()%></td>
+											<td width="15%" style="word-break: break-all"><span name="source_item"><%=dataList.get(i).getName()%></span></td>
 											<td width="8%"><%=dataList.get(i).getType()%></td>
 											<td width="10%"><%=dataList.get(i).getTupleNum()%></td>
 											<td width="10%"><%=dataList.get(i).getFrequency()%></td>
